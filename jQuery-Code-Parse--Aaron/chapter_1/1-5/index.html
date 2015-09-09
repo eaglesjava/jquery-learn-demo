@@ -66,6 +66,45 @@
 		function show(data) {
 			$("body").append('<li>' + data + '</li>')
 		}
+		
+		/*jQuery的立即调用函数表达式的写法有三种： */
+		
+		//写法1：
+		(function(window,factory) {
+			factory(window);
+		}(this,function() {
+			return function() {
+				//jQuery的使用
+			}
+		}))
+		
+		/*
+		 可以看出上面的代码中嵌套了2个函数，而且把一个函数作为参数传递到另一个函数中并且执行，
+		 这种方法有点复杂，我们简化一下写法：
+		 * */
+		
+		//写法2：
+		var factory = function() {
+			return function() {
+				//执行方法
+			}
+		}
+		var jQuery = factory();
+		
+		//上面的代码效果和方法1是等同的，但是这个factory有点变成了简单的工厂方法模式，需要自己调用，
+		//不像是一个单例的jQuery类，所以我们需要改成“自执行”，而不是另外调用。
+		
+		
+		//写法3：
+		(function(window,undefined) {
+			var jQuery = function() {
+				
+			}
+			// ...
+			//window.jQuery = window.$ = jQuery;
+		})(window);
+		
+		
 	</script>
 	</body>
 
